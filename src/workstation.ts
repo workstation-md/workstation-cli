@@ -73,22 +73,29 @@ function signWithSSHKey(keyPath: string, data: string): string {
 
 async function create(args: string[]) {
   let pubkey: string | undefined;
+  let name: string | undefined;
 
   for (let i = 0; i < args.length; i++) {
     if (args[i] === "--pubkey" && args[i + 1]) {
       pubkey = args[i + 1];
       i++;
+    } else if (args[i] === "--name" && args[i + 1]) {
+      name = args[i + 1];
+      i++;
     }
   }
 
   if (!pubkey) {
-    console.error("Usage: workstation create --pubkey <public_key>");
+    console.error("Usage: workstation create --pubkey <public_key> [--name <name>]");
     process.exit(1);
   }
 
+  const body: Record<string, string> = { pubkey };
+  if (name) body.name = name;
+
   const info: WorkstationInfo = await apiRequest("/create", {
     method: "POST",
-    body: JSON.stringify({ pubkey }),
+    body: JSON.stringify(body),
   });
 
   console.log(JSON.stringify(info, null, 2));
@@ -127,7 +134,7 @@ async function list() {
 
 function usage() {
   console.log(`Usage:
-  workstation create --pubkey <public_key>    Create a new workstation (24h TTL)
+  workstation create --pubkey <key> [--name <name>]  Create a workstation (24h TTL)
   workstation <id> destroy                    Destroy a workstation
   workstation <id> extend [--key <path>]      Extend TTL by 24h (proves key ownership)
   workstation list                            List active workstations`);
