@@ -1,0 +1,24 @@
+{
+  "name": "workstation",
+  "version": "0.1.0",
+  "description": "Cloud Linux workstations for AI agents",
+  "type": "module",
+  "bin": {
+    "workstation": "./bin/workstation.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "keywords": ["ai", "agent", "workstation", "cloud", "ssh"],
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/workstation-md/workstation-cli"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "@types/node": "^20.14.0"
+  }
+}
